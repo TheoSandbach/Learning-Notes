@@ -32,4 +32,8 @@
 
 - Each instruction regardless of assembly language follows the pattern `operation [operand1] [operand2] [operand3] ...` 
 
-- 
+- By far the most common assembly languages are x86 (used on PCs, servers, and some networking devices) and ARM (used on all phones, some laptops, and some networking devices), but others include MIPS (older, CTF popular), PowerPC (more niche), RISC-V (embedded devices, growing popularity), or PTX (NVIDIA CUDA GPU pseudo-assembly, very niche)
+
+- x86 has two main families (differ by generation, dialect, extensions, but each family largely the same): Intel and AT&T - Intel is by far more common and popular, and was the original
+
+- ARM has 3 main families: AArch32 - the legacy original, AArch64 - not just an extension but a redesign and the modern go-to, and Thumb - a compressed instruction set of AArch32 for low memory usage
