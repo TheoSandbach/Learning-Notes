@@ -5,17 +5,18 @@ param(
 )
 
 # Pulls any changes to the GitHub repo that have been made externally so the local repo is synced before push
-Write-Host "Syncing with GitHub repo..."
+Write-Host "Syncing with GitHub repo..." -ForegroundColor Green
 git pull
 
 # Lists all changes that will be committed if proceeding
-Write-Host "Proposed commit:"
+Write-Host "Proposed commit:" -ForegroundColor Green
 git status
 
 # Checks if the user wants to proceed or exit given status
-$confirm = Read-Host "Commit and push? (Y/n)" 
+Write-Host "Commit and push?" -ForegroundColor Yellow
+$confirm = Read-Host "(Y/n)"
 if ($confirm -ne "Y") {
-	Write-Host "Commit cancelled"
+	Write-Host "Commit cancelled" -ForegroundColor Red
 	exit
 }
 
@@ -24,4 +25,4 @@ git add .
 git commit -m "$message"
 git push
 
-Write-Host "Complete"
+Write-Host "Complete" -ForegroundColor Green
