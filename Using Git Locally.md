@@ -57,4 +57,17 @@ gh --version # may need to restart pwsh to complete install
 
 Installing on linux should be as simple as typing `git` and `gh`, and installing either with sudo as needed. Use apt over snap when possible: `sudo apt install gh`
 
+### To start a new ssh agent (and only have to enter git ssh key passphrase once per session):
+
+```powershell
+Get-Service ssh-agent # should say "Running", if so, good to go
+Start-Service ssh-agent # only needed if Get-Service says "Stopped"
+
+ls $env:USERPROFILE\.ssh # check the name of your private key for git
+ssh-add $env:USERPROFILE\.ssh\[priv key name] # adds the key to current session
+# ^^^ this is the *only* command needed if not debugging
+
+ssh-add -l # verify key added to session
+```
+
 ---
