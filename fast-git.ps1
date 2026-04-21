@@ -1,8 +1,10 @@
-# The program requires a string (commit message) argument or will fail to run
-param(
-	[Parameter(Mandatory=$true)]
-	[string]$message
-)
+# The program uses the commit message "updated notes [date]"
+$dateStamp = Get-Date -Format "dd-MM-yyyy"
+$message = "updated notes $dateStamp"
+
+# The ssh key is added to the ssh client session at the start of the script so the passphrase only needs to be entered once
+Write-Host "Loading SSH Key..." -ForegroundColor Cyan
+& "C:\Windows\System32\OpenSSH\ssh-add.exe" "C:\Users\Theo/.ssh/id_ed25519" # "$env:USERPROFILE/.ssh/id_ed25519"
 
 # Pulls any changes to the GitHub repo that have been made externally so the local repo is synced before push
 Write-Host "Syncing with GitHub repo..." -ForegroundColor Green
@@ -24,5 +26,8 @@ if ($confirm -ne "Y") {
 git add .
 git commit -m "$message"
 git push
+
+# The ssh key is removed from the session to maintain security
+& "C:\Windows\System32\OpenSSH\ssh-add.exe" -d "$env:USERPROFILE\.ssh\id_ed25519"
 
 Write-Host "Complete" -ForegroundColor Green
