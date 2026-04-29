@@ -7,7 +7,3 @@ Service = application running on a computer that performs functions for other us
 Server = computers that host these services for other computers to connect to and utilize
 
 
-
-
-
-
