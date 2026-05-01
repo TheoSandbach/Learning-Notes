@@ -1,4 +1,4 @@
-# Computing 101 - 'Your First Program'
+# Computing 101 - Your First Program
 
 ---
 
@@ -42,7 +42,7 @@
 
 ### Lecture 3 - Registers
 
-- Registers are very fast but very expensive temporary data stores
+- Registers are very fast but very expensive temporary data stores, they can just be thought of as containers for CPU data
 
 - Together, registers within a CPU core make up what is called the "register file"
 
@@ -60,7 +60,7 @@
 
 - A register can be accessed in its entirety or partially: for amd64, rax is the entire 64 bits, eax is the lower 32 bits, ax the lowest 16 bits, and within ax there is al (the lower byte) and ah (the upper byte) - although only rax, rcx, rdx and rbx allow this upper byte access
 
-- The instruction `mov` is used to set register values - it can set an immediate value (raw data itself, such as `mov rax, 1337` (dec) or `mov rbx, 0x539` (hex))
+- The instruction `mov` is used to set register values - it can set an immediate value (raw data itself, such as `mov rax, 1337` (dec) or `mov rbx, 0x539` (hex)) or copy data from another register
 
 - You can set *part* of a register and leave the other part - for example `mov ah, 0x5` and then `mov al, 0x39` gives you `rax` with value `0x0000000000000539`
 
@@ -72,4 +72,52 @@
   
   - This only applies to 32-bit references (and obviously 64-bit references): 16-bit and 8-bit references only alter their specified bits and no more
 
-- f
+- Using a register as the second operand for `mov` will copy data from that register to the first register: `mov rax, 0x539`, `mov rbx, rax` will set `rbx` to `0x0000000000000539`, while `rax` also keeps this value - duplication, not actually moving the value
+
+- You can also use `mov` to copy across partials, but the source and destination must be the same size - `mov bl, al` is fine, but `mov rbx, al` is not, even though `al`'s data fits within `rbx`
+
+- If we set `eax` to `-1`, then the value stored is `0xffffffff` (both `2^32` as well as `-1`, depending on if it is taken as signed or unsigned), but `rax` is `0x00000000ffffffff`: this is *only* `2^32`, not `-1`
+
+- We can use `movsx` to copy a value across while preserving sign - so for the above example, doing `movsx rax, eax` will set `rax` as `0xffffffffffffffff`: now both `2^64`, *and* `-1`
+
+---
+
+### Notes from Challenges
+
+- The typical file extension for an assembly file is `.s`
+
+- An assembly program will crash if it doesn't end with an exit code, as the program neither can find the next command to execute, nor a command to stop
+
+- To cleanly stop a program, we need to use System Call `60`
+
+- A *System Call* is a command that allows the program to interact with the OS
+
+- Roughly, anything a program does that doesn't involve performing computation on data is done with a system call
+
+- The command `syscall` doesn't take any arguments itself, but uses the value saved in `rax` as the *syscall number*, which tells `syscall` what it is asking the OS to do
+
+- The syscall number to `exit` is `60`, so we do `syscall` after saving the value `60` in `rax`
+
+- Other registers are used to pass other parameters to `syscall` as required
+
+- `rdi` is the first system call parameter, and for `exit`, this parameter holds the *exit code* that the program returns when exiting
+
+- After executing a command or program, in Linux we can do `echo $?` to view the most recent exit code (`$?` is simply the previous exit code)
+
+- To assemble an assembly file into a program, the file needs two things at the top: what syntax we are using, and where the program starts from
+  
+  - These extras are called *directives*
+
+- We use the directive `.intel_syntax noprefix` to tell the assembler we are using Intel syntax
+
+- We then use the directive `.global _start` to make the `_start` label *globally visible* so that when we link the program after assembling it, the linker can see where we start
+
+- And finally `_start:` itself so the assembler and linker can see where the program starts
+  
+  - This is a *label*, not a directive
+
+- To assemble the program, we use `as` with the argument `-o` to assemble the file into an object, for example: `as -o program.o program.s`
+
+- This object is assembled binary code, but before we can run it, we need to link it - this means collecting all of the files associated with a program together into an executable
+
+- We use `ld` (link editor) to perform this link, for example: `ld -o program program.o` creates the executable `program` which we can then run
