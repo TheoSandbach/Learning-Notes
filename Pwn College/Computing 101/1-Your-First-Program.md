@@ -50,15 +50,15 @@
 
 - General purpose registers can be given data to store as required, whereas non-general-purpose registers are specialized and generally more restricted in their usage, such as the instruction pointer or stack pointer
 
-- In amd64, there are 16 general purpose registers: rax, rcx, rdx, rbx, rsp, rbp, rsi, rdi, r8, r9, r10, r11, r12, r13, r14, and r15
+- In amd64, there are 16 general purpose registers: `rax`, `rcx`, `rdx`, `rbx`, `rsp`, `rbp`, `rsi`, `rdi`, `r8`, `r9`, `r10`, `r11`, `r12`, `r13`, `r14`, and `r15`
 
-- arm instead has 15: r0 through r14
+- arm instead has 15: `r0` through `r14`
 
-- The instruction pointer which points to the next instruction, is rip in amd64, or r15 in arm
+- The instruction pointer which points to the next instruction, is `rip` in amd64, or `r15` in arm
 
 - The register size is typically the same size as the word width of the architecture, for example an amd64 register is 64-bits
 
-- A register can be accessed in its entirety or partially: for amd64, rax is the entire 64 bits, eax is the lower 32 bits, ax the lowest 16 bits, and within ax there is al (the lower byte) and ah (the upper byte) - although only rax, rcx, rdx and rbx allow this upper byte access
+- A register can be accessed in its entirety or partially: for amd64, `rax` is the entire 64 bits, `eax` is the lower 32 bits, `ax` the lowest 16 bits, and within `ax` there is `al` (the lower byte) and `ah` (the upper byte) - although only `rax`, `rcx`, `rdx` and `rbx` allow this upper byte access
 
 - The instruction `mov` is used to set register values - it can set an immediate value (raw data itself, such as `mov rax, 1337` (dec) or `mov rbx, 0x539` (hex)) or copy data from another register
 
@@ -79,6 +79,18 @@
 - If we set `eax` to `-1`, then the value stored is `0xffffffff` (both `2^32` as well as `-1`, depending on if it is taken as signed or unsigned), but `rax` is `0x00000000ffffffff`: this is *only* `2^32`, not `-1`
 
 - We can use `movsx` to copy a value across while preserving sign - so for the above example, doing `movsx rax, eax` will set `rax` as `0xffffffffffffffff`: now both `2^64`, *and* `-1`
+
+- Here are some of the arithmetic operations that can be done with registers, the result of the operation is stored in the first register in the operation:
+  
+  ![Arithmetic operations table](../../pictures/3f83579526490e1b1d61342a0c557e7236c2a39a.png)
+
+- `rip` as noted above is the instruction pointer register (`ip` = instruction pointer) and cannot be directly read from or written to
+
+- `rsp` is technically a general purpose register, however it is the stack pointer (`sp` = stack pointer) and should not be used without care
+
+- Other registers may be used for other specific tasks
+
+- There are other special purpose registers that handle things like floating point numbers, huge 512-bit registers for large data computation, registers reserved for the OS itself, etc
 
 ---
 
