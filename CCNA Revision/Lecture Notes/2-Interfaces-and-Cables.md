@@ -110,5 +110,3 @@ Here are some standards for fiber-optic cables as defined in IEEE 802.3:
 | 10 Gbps | Multimode   | 802.3ae       | 10GBASE-SR    | 400m           |
 | 10 Gbps | Single mode | 802.3ae       | 10GBASE-LR    | 10km           |
 | 10 Gbps | Single mode | 802.3ae       | 10GBASE-ER    | 30km           |
-
-
