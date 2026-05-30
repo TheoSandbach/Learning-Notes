@@ -1,4 +1,4 @@
-# 3 - How the TCP/IP Model Works
+# How the TCP/IP Model Works
 
 ---
 

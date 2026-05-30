@@ -1,4 +1,4 @@
-# 2 - Interfaces and Cables
+# Interfaces and Cables
 
 ---
 

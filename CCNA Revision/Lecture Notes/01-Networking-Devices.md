@@ -1,4 +1,4 @@
-# 1 - Networking Devices
+# Networking Devices
 
 ---
 

@@ -6,7 +6,7 @@ When using the command `show ip interface brief` within a switch as opposed to a
 
 However, each interface can still be disabled with the `shutdown` command, and reenabled with `no shutdown`, just as with a router interface.
 
-An important command for switches is `show interfaces status`: this gives interface name (Port), given description (Name), Status (different to the `show ip interface brief` Status field), Vlan, Duplex, Speed, and Type. The Type field is simply what type of interface each is, for example `10/100BaseTX` for a fast ethernet interface, which can also operate as an ethernet interface if needed.
+An important command for switches (which only works on switches) is `show interfaces status`: this gives interface name (Port), given description (Name), Status (different to the `show ip interface brief` Status field), Vlan, Duplex, Speed, and Type. The Type field is simply what type of interface each is, for example `10/100BaseTX` for a fast ethernet interface, which can also operate as an ethernet interface if needed.
 
 Duplex can be half, or full. Half-duplex means the device cannot send and receive data at the same time (if a half duplex device is receiving data, it must wait before sending data), whereas full-duplex means it can. Switch interfaces are set to auto by default. This means the interface, when connected to another device, will work out whether it can use full-duplex to communicate with the other device (the preferred option), or has to use half-duplex. An unconnected interface will have `auto` listed in its Duplex field, whereas a connected interface will say `a-full` if it can use full-duplex, or `a-half` if it has to use half-duplex.
 
