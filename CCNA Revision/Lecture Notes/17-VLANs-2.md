@@ -70,7 +70,7 @@ Configuring these settings on a switch is important to both maintain security, a
 
 Note that a VLAN with a given ID does not need to be configured in the domain to be added or removed from the list. As mentioned previously, these VLAN IDs will be listed separately when using the command `show interfaces trunk` from VLAN IDs that have already been configured.
 
-Also note that while `show interfaces trunk` will list each trunk port and their allowed VLANs, but `show vlan brief` will not: this command only shows access ports assigned to each VLAN.
+Also note that while `show interfaces trunk` will list each trunk port and their allowed VLANs, `show vlan brief` will not: this command only shows access ports assigned to each VLAN.
 
 ### Changing the Native VLAN
 
@@ -78,4 +78,18 @@ The command to change the native VLAN on a trunk interface (remember, the native
 
 ### Router on a Stick (RoaS)
 
+Connecting a trunk port on a switch to a router interface means one interface on the router will be forwarding the traffic of multiple VLANs. However, routers do not have trunk ports. Instead, one interface must be logically segmented into multiple sub-interfaces: one physical interface connects to the trunk port on the switch, but each VLAN has its own logically distinct sub-interface it uses, with its own IP address.
 
+Sub-interfaces are labelled as `[interface ID].[VLAN ID]`. For example, `g0/0.10`, where `g0/0` is the physical interface and `10` is the VLAN number. Note: the VLAN ID number at the end doesn't actually have any requirement to match the VLAN ID the sub interface is assigned to, but it is recommended to make these match.
+
+To configure a sub-interface, Sub-Interface Configuration Mode is entered with the command `interface [sub-interface ID]`, for example `interface g0/0.10`.
+
+Next, the VLAN this sub-interface operates in must be assigned with `encapsulation dot1q [VLAN ID]`. This tells the router if it receives data from a VLAN with that ID on its physical interface, to send it to that specific sub-interface. It also tells the router data received on that VLAN will be encapsulated with 802.1Q, and that outgoing data should be encapsulated in the same way. Outgoing data from this sub-interface will be Dot1q tagged for this VLAN, and so will be forwarded within that VLAN by the switch.
+
+Finally the IP address of the sub-interface must be configured, just as it normally is: `ip address [IP-address] [subnet mask]`.
+
+This process must be carried out with each sub-interface.
+
+The `show ip interface brief` command will show these sub-interfaces listed (beneath the physical interface) as if they were physical interfaces themselves. These sub-interfaces will also be listed in the Local and Connected routes on the routing table (`show ip route`), again, just as if they were physical interfaces.
+
+The name "Router on a Stick" (or ROAS) is used to refer to this method of routing between multiple VLANs only using a single interface on the router connected to a single interface on the switch

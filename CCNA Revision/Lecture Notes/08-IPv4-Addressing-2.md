@@ -14,6 +14,8 @@ When in Interface mode for a specific interface, to set an IP address for that i
 
 Finally, the interface needs to be enabled (an interface on a router by default is set to 'administratively down', and can be set to this mode with the `shutdown` command). This is done with the command `no shutdown` (or `no shut`). The status and protocol fields (see below) of the interface should now switch to 'up', meaning the interface has been configured.
 
+Note: To reset an interface to its default configuration, use `default interface [interface ID]` from global config mode.
+
 ### Viewing Interface Information
 
 To see the status of every interface on a router as well as what IP address they are assigned, the command `show ip interface brief` (or `sh ip in br` for short) can be used from privileged EXEC mode.
